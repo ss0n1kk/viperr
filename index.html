@@ -15,9 +15,69 @@
         .artist-photo, .artistkai-photo { width: 100%; height: auto; }
         .artist-image, .artistkai-image { height: auto; }
         @media (max-width: 1024px) { main { padding-top: 80px; } }
-        /* адаптивные заголовки, чтобы крупный текст не вылезал за сетку */
         .release-title { margin-left: 0; letter-spacing: 0.4em; font-size: clamp(1.6rem, 4vw, 3rem); }
-        .section-title { margin-top: 90px; letter-spacing: 0.3em; font-size: clamp(2rem, 6vw, 4.5rem); overflow-wrap: anywhere; }
+
+        /* BESTRELEASE — растянуто на всю ширину */
+        .section-title.stretch-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            width: 100%;
+            margin: 90px 0 40px;
+            padding: 0 2vw;
+            letter-spacing: 0;
+            line-height: 1;
+            opacity: .8;
+            font-size: clamp(1.6rem, 11vw, 8rem);
+            white-space: nowrap;
+        }
+        .section-title.stretch-title span { flex: 0 0 auto; }
+
+        /* NARCOTIC — стеклянный 3D-эффект при наведении */
+        .narcotic-tilt-wrap { perspective: 900px; display: inline-block; max-width: 100%; }
+        .narcotic-tilt-inner {
+            position: relative; display: inline-block; max-width: 100%;
+            transform-style: preserve-3d; will-change: transform;
+            transition: transform .18s ease-out, box-shadow .35s ease, filter .35s ease;
+        }
+        .narcotic-tilt-inner img { display: block; max-width: 100%; height: auto; }
+        .narcotic-tilt-inner:hover {
+            box-shadow: 0 0 45px 8px rgba(255,0,191,.55), 0 0 90px 24px rgba(255,0,191,.22);
+            filter: saturate(1.25) brightness(1.06) contrast(1.05);
+        }
+        .narcotic-sheen {
+            position: absolute; inset: 0; pointer-events: none; opacity: 0;
+            transition: opacity .35s ease; mix-blend-mode: screen;
+            background: radial-gradient(circle at var(--mx,50%) var(--my,50%),
+                        rgba(255,255,255,.45), rgba(255,115,197,.12) 35%, rgba(255,255,255,0) 60%);
+        }
+        .narcotic-tilt-inner:hover .narcotic-sheen { opacity: 1; }
+
+        /* Плеер — gothic / industrial */
+        .player { max-width: 460px; margin: 30px auto 0; }
+        .track-info { font-family: 'Share Tech Mono', monospace; text-transform: uppercase; letter-spacing: .25em; font-size: .78rem; color: #c9c9c9; }
+        .track-info .track-name { color: #fff; text-shadow: 0 0 8px rgba(255,0,191,.55); }
+        .music-player {
+            background: linear-gradient(180deg, rgba(24,24,24,.92), rgba(0,0,0,.96));
+            border: 1px solid rgba(255,255,255,.18);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.12), inset 0 0 30px rgba(0,0,0,.9), 0 0 24px rgba(0,0,0,.8);
+            padding: 16px 18px; position: relative; overflow: hidden;
+        }
+        .music-player::before {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background: repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 3px);
+        }
+        .player-controls { gap: 14px; position: relative; z-index: 1; }
+        #play-btn {
+            width: 46px; height: 46px; flex: 0 0 auto; border: 1px solid rgba(255,255,255,.5);
+            border-radius: 50%; background: rgba(0,0,0,.6); color: #fff; font-size: 15px;
+            box-shadow: 0 0 12px rgba(255,0,191,.25); transition: all .3s ease;
+        }
+        #play-btn:hover { background: #fff; color: #000; box-shadow: 0 0 22px rgba(255,0,191,.85); }
+        .progress-container { height: 6px; background: rgba(255,255,255,.12); box-shadow: inset 0 0 5px rgba(0,0,0,.85); }
+        .progress-bar { background: linear-gradient(90deg, #c9c9c9, #ff73c5); box-shadow: 0 0 10px rgba(255,0,191,.85); }
+        #mute-btn img { filter: drop-shadow(0 0 5px rgba(255,0,191,.6)); }
+        .player input[type="range"] { accent-color: #ff73c5; }
     </style>
 </head>
 <body>
@@ -87,13 +147,18 @@
             </div>
 
             <section class="best-releases-section">
-                <h2 class="section-title text-center">BESTRELEASE</h2>
+                <h2 class="section-title stretch-title" aria-label="BESTRELEASE"><span>B</span><span>E</span><span>S</span><span>T</span><span>R</span><span>E</span><span>L</span><span>E</span><span>A</span><span>S</span><span>E</span></h2>
                 <div class="row align-items-center justify-content-center g-4 best-release-item" data-album="NARCOTIC">
                     <div class="col-12 col-lg-5 album-info text-center text-lg-end">
                         <h3>Narcotic</h3>
                     </div>
                     <div class="col-12 col-lg-6 text-center text-lg-start">
-                        <img src="/viperr/images/try.jpg" alt="NARCOTIC" class="img-fluid">
+                        <div class="narcotic-tilt-wrap">
+                            <div class="narcotic-tilt-inner" id="narcotic-tilt">
+                                <img src="/viperr/images/try.jpg" alt="NARCOTIC" class="img-fluid">
+                                <span class="narcotic-sheen"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -101,7 +166,7 @@
     </main>
     <footer class="main-footer">
         <div class="footer-left">
-            <p>nikakue rights ne reserved syka © 2025</p>
+            <p>all Rights reserved</p>
         </div>
         <a href="https://t.me/derevo1337sol" target="_blank" class="social-link">telega avtorra</a>
         <div class="footer-center">
@@ -119,5 +184,25 @@
     <script src="/viperr/js/main.js"></script>
     <script src="/viperr/js/player.js"></script>
     <script src="/viperr/js/matrix.js"></script>
+    <script>
+        (function () {
+            var el = document.getElementById('narcotic-tilt');
+            if (!el) return;
+            var MAX = 12;
+            el.addEventListener('mousemove', function (e) {
+                var r = el.getBoundingClientRect();
+                var px = (e.clientX - r.left) / r.width;
+                var py = (e.clientY - r.top) / r.height;
+                var rx = (0.5 - py) * MAX;
+                var ry = (px - 0.5) * MAX;
+                el.style.transform = 'rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) scale(1.03)';
+                el.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+                el.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+            });
+            el.addEventListener('mouseleave', function () {
+                el.style.transform = '';
+            });
+        })();
+    </script>
 </body>
 </html>
